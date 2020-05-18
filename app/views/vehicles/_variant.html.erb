@@ -39,7 +39,7 @@
         <thead>
           <tr>
             <th>Range</th>
-            <th>Mic</th>
+            <th>Min</th>
             <th>Max</th>
           </tr>
         </thead>
@@ -52,7 +52,7 @@
           <tr>
             <td>Mileage</td>
             <td><%= variant.vehicle_inspections.where('mileage >= ?', params[:mileage_min].to_i).minimum(:mileage) %></td>
-            <td><%= variant.vehicle_inspections.where('mileage <= ?', params[:mileage_max] || VehicleInspection::MAX).maximum(:mileage) %></td>
+            <td><%= variant.vehicle_inspections.where('mileage <= ?', (params[:mileage_max].presence && params[:mileage_max].to_i) || VehicleInspection::MAX).maximum(:mileage) %></td>
           </tr>
         </tbody>
       </table>

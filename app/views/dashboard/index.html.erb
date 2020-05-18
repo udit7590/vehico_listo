@@ -1,0 +1,157 @@
+<div class="is-radiusless">
+  <section class="hero is-secondary is-dark">
+    <div class="hero-body">
+      <div class="container">
+        <img src="https://forums.odforce.net/uploads/monthly_2017_09/V.png.369103f574897ea558177f9598bb3137.png" alt="Vehico Listo" width="75" height="75">
+        <h1 class="title">Vehico Listo</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM FOR CSV UPLOAD -->
+  <section class="hero is-primary is-radiusless">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Import Vehicles</h1>
+        <h2 class="subtitle">Supports CSV Only</h2>
+      </div>
+    </div>
+  </section>
+
+  <% if flash[:alert] %>
+    <div class="notification is-danger is-full is-radiusless">
+      <button class="delete"></button>
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+  <% if flash[:notice] %>
+    <div class="notification is-success is-full is-radiusless">
+      <button class="delete"></button>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <section class="section">
+    <div class="container">
+      <h1 class="title">CSV Upload Form</h1>
+
+      <%= form_for :import, url: imports_path, method: :post do |f| %>
+        <div id="file-csv-upload-import" class="file has-name is-success">
+          <label class="file-label">
+            <%= f.file_field :attachment, class: 'file-input' %>
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose a file…
+              </span>
+            </span>
+            <span class="file-name">
+              No file uploaded
+            </span>
+          </label>
+        </div>
+
+        <br />
+
+        <div class="control">
+          <%= f.submit :Import, class: 'button is-link' %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- LISTING -->
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Vehicles List</h1>
+        <h2 class="subtitle">Filter</h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero is-light">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Filters</h1>
+
+        <div class="select is-dark">
+          <select>
+            <option>Size</option>
+            <option>With options</option>
+          </select>
+        </div>
+
+        <div class="select is-dark">
+          <select>
+            <option>Exterior Colour</option>
+            <option>With options</option>
+          </select>
+        </div>
+
+        <div class="field" style="display: inline;">
+          <div class="control" style="display: inline;">
+            <input class="input is-dark column is-2" type="text" placeholder="Mileage Min" style="display: inline;">
+            <input class="input is-dark column is-2" type="text" placeholder="Mileage Max" style="display: inline;">
+            <input class="input is-dark column is-1" type="text" placeholder="Price Min" style="display: inline;">
+            <input class="input is-dark column is-1" type="text" placeholder="Price Max" style="display: inline;">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-multiline">
+        <% @variants.each do |variant| %>
+          <%= render 'vehicles/variant', variant: variant %>
+        <% end %>
+
+    </div>
+      <%== pagy_nav(@pagy) %>
+    </div>
+  </section>
+
+</div>
+
+
+<!-- CUSTOM JAVASCRIPTS -->
+<script>
+  const fileInput = document.querySelector('#file-csv-upload-import input[type=file]');
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#file-csv-upload-import .file-name');
+      fileName.textContent = fileInput.files[0].name;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      $notification = $delete.parentNode;
+
+      $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
+      });
+    });
+  });
+</script>

@@ -1,0 +1,51 @@
+<div class="card column is-6 is-radiusless" style="background-color: #F5F5F5">
+  <header class="card-header">
+    <p class="card-header-title">
+      <%= variant.vehicle.make.name %> - <%= variant.vehicle.model %> (<%= variant.vehicle.vehicle_type.name %>)
+      <br />
+      Series: <%= variant.model_variant.series %> - <%= variant.model_variant.year %>
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Specification Name</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cylinders</td>
+            <td><%= variant.vehicle_specification.cylinders %></td>
+          </tr>
+          <tr>
+            <td>Displacement</td>
+            <td><%= variant.vehicle_specification.displacement %></td>
+          </tr>
+          <tr>
+            <td>Drive Train</td>
+            <td><%= variant.vehicle_specification.drive_train %></td>
+          </tr>
+          <tr>
+            <td>Transmission</td>
+            <td><%= variant.vehicle_specification.transmission %></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <p>
+        Price Range: <%= Money.new(variant.prices.minimum(:amount_cents), "USD").format %> - <%= Money.new(variant.prices.maximum(:amount_cents), "USD").format %>
+      </p>
+      <p>
+        Mileage Range: <%= variant.vehicle_inspections.minimum(:mileage) %> - <%= variant.vehicle_inspections.maximum(:mileage) %>
+      </p>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <% variant.option_values.each do |option_value| %>
+      <p class="card-footer-item"><strong><%= option_value.option_type.name.humanize %></strong> : <%= option_value.value %></p>
+    <% end %>
+  </footer>
+</div>

@@ -9,3 +9,7 @@
 ['Customer', 'SalesRep', 'Technician'].each do |role_name|
   Role.find_or_create_by!(name: role_name)
 end
+
+OptionType::DEFAULT_TYPES.each do |option_type|
+  OptionType.find_or_create_by!(name: option_type)
+end

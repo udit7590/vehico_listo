@@ -33,8 +33,6 @@
 
   <section class="section">
     <div class="container">
-      <h1 class="title">CSV Upload Form</h1>
-
       <%= form_for :import, url: imports_path, method: :post do |f| %>
         <div id="file-csv-upload-import" class="file has-name is-success">
           <label class="file-label">
@@ -77,43 +75,30 @@
       <div class="container">
         <h1 class="title">Filters</h1>
 
-        <div class="select is-dark">
-          <select>
-            <option>Size</option>
-            <option>With options</option>
-          </select>
-        </div>
+        <%= form_for :variant, url: root_path, method: :get do |f| %>
 
-        <div class="select is-dark">
-          <select>
-            <option>Exterior Colour</option>
-            <option>With options</option>
-          </select>
-        </div>
+          <div class="select is-dark">
+            <%= select_tag :size_id, options_from_collection_for_select(VehicleType.all.collect, :id, :name, params[:size_id]), include_blank: false, prompt: 'Size' %>
+          </div>
 
-        <div class="field" style="display: inline;">
+          <div class="select is-dark">
+            <%= select_tag :colour_id, options_from_collection_for_select(OptionType.find_by(name: :exterior_colour).option_values, :id, :value, params[:colour_id]), include_blank: false, prompt: 'Exterior Colour' %>
+          </div>
+
+          <div class="field" style="display: inline;">
+            <div class="control" style="display: inline;">
+              <%= text_field_tag :mileage_min, '', class: "input is-dark column is-2", placeholder: "Mileage Min", style: "display: inline;", value: params[:mileage_min] %>
+              <%= text_field_tag :mileage_max, '', class: "input is-dark column is-2", placeholder: "Mileage Max", style: "display: inline;", value: params[:mileage_max] %>
+              </span><%= text_field_tag :price_min, '', class: "input is-dark column is-1", placeholder: "Price Min", style: "display: inline;", value: params[:price_min] %>
+              <%= text_field_tag :price_max, '', class: "input is-dark column is-1", placeholder: "Price Max", style: "display: inline;", value: params[:price_max] %>
+            </div>
+          </div>
+
           <div class="control" style="display: inline;">
-            <input class="input is-dark column is-2" type="text" placeholder="Mileage Min" style="display: inline;">
-            <input class="input is-dark column is-2" type="text" placeholder="Mileage Max" style="display: inline;">
-            <input class="input is-dark column is-1" type="text" placeholder="Price Min" style="display: inline;">
-            <input class="input is-dark column is-1" type="text" placeholder="Price Max" style="display: inline;">
+            <%= f.submit :Filter, class: 'button is-link' %>
           </div>
-        </div>
 
-        <div class="field">
-          <div class="control">
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="control">
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="control">
-          </div>
-        </div>
+        <% end %>
 
       </div>
     </div>
@@ -123,8 +108,11 @@
   <section class="section">
     <div class="container">
       <div class="columns is-multiline">
-        <% @variants.each do |variant| %>
+        <% @variants.each.with_index do |variant, index| %>
           <%= render 'vehicles/variant', variant: variant %>
+          <% if (index % 2 == 1) && index > 0 %>
+            <div class="column is-12"><hr /></div>
+          <% end %>
         <% end %>
 
     </div>

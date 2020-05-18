@@ -39,6 +39,7 @@
 * Any database related logic like foreign keys, dependent_destroy, etc are not added and can be evolved
 * Can create a model for Import to keep a track of all the imports
 * Can add another attribute `is_master` to Variant. Master Variant will be used to refer basic details for vehicle like make, body, model (corresponding columns also to be added to variant). This makes all processing around Variants in the system
+* Further analysis shall be required depending on what fields we can be expecting as nil in CSV
 
 ## Overall Architecture for DB
 * User: id, name, email, role_id (can represent customer, sales_rep, technician)

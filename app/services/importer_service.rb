@@ -104,7 +104,7 @@ class ImporterService
           country: vehicle[:stock_location_country],
         })
 
-        dealer = Dealer.find_or_create_by(name: vehicle[:dealer_name])
+        dealer = (Dealer.find_or_create_by(name: vehicle[:dealer_name]) if vehicle[:dealer_name].present?)
 
         vehicle_obj = Vehicle.find_or_create_by(model: vehicle[:model], make: make, vehicle_type: vehicle_type)
 
@@ -185,6 +185,6 @@ class ImporterService
     end
 
     def permitted_option_types
-      [:upholstery, :exterior_colour, :interior_colour]
+      OptionType::DEFAULT_TYPES
     end
 end

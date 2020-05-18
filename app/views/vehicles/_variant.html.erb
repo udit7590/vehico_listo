@@ -1,9 +1,9 @@
-<div class="card column is-6 is-radiusless" style="background-color: #F5F5F5">
-  <header class="card-header">
-    <p class="card-header-title">
+<div class="card column is-6 is-radiusless" style="background-color: #F5F5F5;">
+  <header class="card-header" style="background-color: #00d1b2;">
+    <p class="card-header-title is-white" style="color: #FFF">
       <%= variant.vehicle.make.name %> - <%= variant.vehicle.model %> (<%= variant.vehicle.vehicle_type.name %>)
       <br />
-      Series: <%= variant.model_variant.series %> - <%= variant.model_variant.year %>
+      Series: <%= variant.model_variant&.series %> - <%= variant.model_variant&.year %>
     </p>
   </header>
   <div class="card-content">
@@ -35,15 +35,43 @@
         </tbody>
       </table>
       <br>
-      <p>
-        Price Range: <%= Money.new(variant.prices.minimum(:amount_cents), "USD").format %> - <%= Money.new(variant.prices.maximum(:amount_cents), "USD").format %>
-      </p>
-      <p>
-        Mileage Range: <%= variant.vehicle_inspections.minimum(:mileage) %> - <%= variant.vehicle_inspections.maximum(:mileage) %>
-      </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Range</th>
+            <th>Mic</th>
+            <th>Max</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td><%= Money.new(variant.prices.minimum(:amount_cents), "USD").format %></td>
+            <td><%= Money.new(variant.prices.maximum(:amount_cents), "USD").format %></td>
+          </tr>
+          <tr>
+            <td>Mileage</td>
+            <td><%= variant.vehicle_inspections.minimum(:mileage) %></td>
+            <td><%= variant.vehicle_inspections.maximum(:mileage) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Stock VINs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= variant.stock_items.map(&:vin).join(", ") %></td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
     </div>
   </div>
-  <footer class="card-footer">
+  <footer class="card-footer" style="background-color: #FFF;">
     <% variant.option_values.each do |option_value| %>
       <p class="card-footer-item"><strong><%= option_value.option_type.name.humanize %></strong> : <%= option_value.value %></p>
     <% end %>

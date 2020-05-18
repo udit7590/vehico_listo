@@ -10,7 +10,7 @@
 * https://vehico-listo.herokuapp.com
 
 ## Notes
-* There is no focus on UI for the application
+* Currently the requests longer than 30 sec will failt (and should fail). This also means that large CSV uploads will fail on Heroku. Need to move them to background job.
 * Roles can be user, sales_rep or technician for now but can be easily extended
 * The database architecture uses common e-commerce database patterns and aims at providing flexibility and extensibility
 * The pricing is separated from Variant model since the similar seeming vehicles can have different pricing based on vehicle grade, mileage or other vehicle conditions

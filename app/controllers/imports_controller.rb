@@ -2,8 +2,8 @@ class ImportsController < ApplicationController
   def create
     @import = Import.new(import_params)
     if import_params[:attachment].present?
-      count = @import.upload
-      redirect_to root_path, notice: "#{count} Vehicles Imported"
+      @import.delay.upload
+      redirect_to root_path, notice: "Vehicles stock list will be imported in the background"
     else
       redirect_to root_path, alert: "File not provided to import vehicles"
     end

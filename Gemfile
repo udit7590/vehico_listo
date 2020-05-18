@@ -26,6 +26,9 @@ gem 'money-rails'
 
 gem 'pagy'
 
+# https://devcenter.heroku.com/articles/h12-request-timeout-in-ruby-mri
+gem 'rack-timeout'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

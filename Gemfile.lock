@@ -118,6 +118,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack-timeout (0.6.0)
     rails (6.0.3)
       actioncable (= 6.0.3)
       actionmailbox (= 6.0.3)
@@ -221,6 +222,7 @@ DEPENDENCIES
   pagy
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
+  rack-timeout
   rails (~> 6.0.3)
   rspec-rails
   sass-rails (>= 6)

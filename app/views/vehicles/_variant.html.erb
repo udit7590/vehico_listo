@@ -46,29 +46,16 @@
         <tbody>
           <tr>
             <td>Price</td>
-            <td><%= Money.new(variant.prices.minimum(:amount_cents), "USD").format %></td>
-            <td><%= Money.new(variant.prices.maximum(:amount_cents), "USD").format %></td>
+            <td><%= Money.new(variant.prices.where('amount_cents >= ?', params[:price_min].to_i * 100).minimum(:amount_cents), "USD").format %></td>
+            <td><%= Money.new(variant.prices.where('amount_cents <= ?', (params[:price_max].presence && params[:price_max].to_i * 100) || Price::MAX).maximum(:amount_cents), "USD").format %></td>
           </tr>
           <tr>
             <td>Mileage</td>
-            <td><%= variant.vehicle_inspections.minimum(:mileage) %></td>
-            <td><%= variant.vehicle_inspections.maximum(:mileage) %></td>
+            <td><%= variant.vehicle_inspections.where('mileage >= ?', params[:mileage_min].to_i).minimum(:mileage) %></td>
+            <td><%= variant.vehicle_inspections.where('mileage <= ?', params[:mileage_max] || VehicleInspection::MAX).maximum(:mileage) %></td>
           </tr>
         </tbody>
       </table>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Stock VINs</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= variant.stock_items.map(&:vin).join(", ") %></td>
-          </tr>
-        </tbody>
-      </table>
-      <br />
     </div>
   </div>
   <footer class="card-footer" style="background-color: #FFF;">

@@ -13,22 +13,26 @@ class Variant < ApplicationRecord
 
   filter_by :price_min, ->(min) do
     min = min.to_i * 100 # cents
-    joins(:prices).where('prices.amount_cents > ?', min)
+    joins(:prices).where('prices.amount_cents >= ?', min)
   end
   filter_by :price_max, ->(max) do
     max = max.to_i * 100 # cents
-    joins(:prices).where('prices.amount_cents < ?', max)
+    joins(:prices).where('prices.amount_cents <= ?', max)
   end
   filter_by :mileage_min, ->(min) do
-    joins(:vehicle_inspections).where('vehicle_inspections.mileage > ?', min)
+    joins(:vehicle_inspections).where('vehicle_inspections.mileage >= ?', min)
   end
   filter_by :mileage_max, ->(max) do
-    joins(:vehicle_inspections).where('vehicle_inspections.mileage < ?', max)
+    joins(:vehicle_inspections).where('vehicle_inspections.mileage <= ?', max)
   end
   filter_by :size_id, -> (size_id) { joins(vehicle: :vehicle_type).where('vehicles.vehicle_type_id = ?', size_id) }
   filter_by :colour_id, -> (colour_id) do
     option_type = OptionType.find_by(name: :exterior_colour)
-    option_values = option_type.option_values.where(id: colour_id)
-    joins(:option_value_variants).where(option_value_variants: { option_value_id: colour_id })
+    if option_type.blank?
+      none
+    else
+      option_values = option_type.option_values.where(id: colour_id)
+      joins(:option_value_variants).where(option_value_variants: { option_value_id: colour_id })
+    end
   end
 end

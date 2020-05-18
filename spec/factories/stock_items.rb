@@ -5,5 +5,7 @@ FactoryBot.define do
     variant
     stock_location
     dealer
+    price
+    vehicle_inspection
   end
 end

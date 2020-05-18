@@ -6,10 +6,10 @@ FactoryBot.define do
   end
 
   factory :technician, parent: :user do
-    association :role, factory :technician_role
+    association :role, factory: :technician_role
   end
 
   factory :sales_rep, parent: :user do
-    association :role, factory :sales_rep_role
+    association :role, factory: :sales_rep_role
   end
 end

@@ -11,7 +11,7 @@ class ImporterService
   end
 
   def format_klass
-    case format
+    case format.to_s.downcase
     when 'csv' then ImporterService::Format::Csv
     end
   end

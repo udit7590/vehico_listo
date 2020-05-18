@@ -10,13 +10,13 @@
 * https://vehico-listo.herokuapp.com
 
 ## Notes
-* Currently the requests longer than 30 sec will failt (and should fail). This also means that large CSV uploads will fail on Heroku. Need to move them to background job.
+* Processing the CSV import in background since the reuqest can take quite long. Currently, no way of knowing how many records were succesful.
 * Roles can be user, sales_rep or technician for now but can be easily extended
-* The database architecture uses common e-commerce database patterns and aims at providing flexibility and extensibility
+* The database architecture uses common e-commerce database patterns and aims at providing extensibility
 * The pricing is separated from Variant model since the similar seeming vehicles can have different pricing based on vehicle grade, mileage or other vehicle conditions
 * StockItem is separated from StockLocation since the car can be moved around on the basis of demand. Later on, concept of stock_transfer, and stock_movement can be introduced indicate if a stock is in transmit between stock locations
 * Did not introduce foreign_key and not null constraints as of now. This is better maintained at application level initially and can be moved to database systems as the data grows
-* Uses Pagy gem which is much more efficient than Kaminari, Will_Paginate gems
+* Uses Pagy gem for pagination which is much more efficient than Kaminari, Will_Paginate gems
 
 ## Questions
 * It is not clear how sales rep and buyer will be mapped to a stock item. Does sales rep comes into picture only after a purchase in our system? Or does each stock item has a sales representative and an owner?

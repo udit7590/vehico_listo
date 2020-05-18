@@ -6,6 +6,8 @@
 3. rails db:seed
 4. rails s
 
+## Demo Site
+* https://vehico-listo.herokuapp.com
 
 ## Notes
 * There is no focus on UI for the application
